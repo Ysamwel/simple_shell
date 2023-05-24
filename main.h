@@ -66,16 +66,19 @@ void my_prompt(char *prompt, bool append_newline);
 void run_loop(char *program_name);
 void tokenize_command(char *command, char *args[]);
 void handle_command(char *command, char *program_name);
+void handle_execution(PathNode *pathList, char *args[], char *program_name);
 int my_puts(const char *str, bool append_newline);
 void my_prompt(char *prompt, bool append_newline);
 char *custom_getenv(const char *name);
 void _memcpy(void *aftptr, const void *ptr, unsigned int size);
-void *_realloc(void *ptr, unsigned int prev_size, unsigned int aft_size);
+void *_realloc(void *ptr, size_t size);
 PathNode *add_path(PathNode *head, const char *path);
 void free_paths(PathNode *head);
 PathNode *tokenize_path(const char *path);
 PathNode *get_search_path(void);
 void execute_command(char *command, char *args[]);
+void wait_child(pid_t pid, char *args[], char *program_name);
+void wait_child(pid_t pid, char *args[], char *program_name);
 void execute_path(PathNode *pathList, char *args[], char *program_name);
 void processLine(char **linptr, size_t *g, char *buff, size_t l);
 ssize_t custom_getLine(char **linptr, size_t *g, FILE *stream);
@@ -94,11 +97,10 @@ char *_strdup(const char *str);
 char *_strpbrk(const char *str, const char *delimiters);
 char *_strtok(char *str, const char *delimiters);
 char *_strncpy(char *destination, const char *source, size_t num);
-
+char *s_strcpy(char *dest, const char *src);
 void handle_cd_command(char *args[]);
 
 void _memcpy(void *aftptr, const void *ptr, unsigned int size);
-void *_realloc(void *ptr, unsigned int prev_size, unsigned int aft_size);
 char **_reallocdp(char **ptr, unsigned int prev_size, unsigned int aft_size);
 void get_err(data_sh *datashell, int err_num);
 
@@ -126,7 +128,6 @@ int env_execute(char **args);
 unsigned int count_builtins(builtin_f builtins[]);
 int exec_builtin_command(char **tokens);
 void _memcpy(void *aftptr, const void *ptr, unsigned int size);
-void *_realloc(void *ptr, unsigned int prev_size, unsigned int aft_size);
 void get_err(data_sh *datashell, int err_num);
 
 
