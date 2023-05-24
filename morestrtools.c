@@ -1,89 +1,121 @@
 #include "main.h"
+
 /**
- * _strtok - this fuction tokenizes string into smaller
- * parts based on delimiters
- * @str:string to be tokenized
- * @delimiters: delimiter characters
+ * cap_string - Capitalizes the first letter of each word in a string.
+ * @s: The string to capitalize.
  *
- * Return: Pointer to the next token in the string, NULL on error
+ * Return: Pointer to the resulting string.
  */
-
-char *_strtok(char *str, const char *delimiters)
+char *cap_string(char *s)
 {
-	static char *nextToken;
-	char *tokenStart;
-	char *tokenEnd;
+	int i = 0;
+	int capitalize = 1;
+	char separators[] = " \t\n,;.!?\"(){}";
 
-	if (str != NULL)
-		nextToken = str;
-
-	if (nextToken == NULL || *nextToken == '\0')
-		return (NULL);
-
-	tokenStart = nextToken;
-	tokenEnd = strpbrk(nextToken, delimiters);
-
-	if (tokenEnd != NULL)
+	while (s[i] != '\0')
 	{
-		*tokenEnd = '\0';
-		nextToken = tokenEnd + 1;
+		if (capitalize && (s[i] >= 'a' && s[i] <= 'z'))
+		{
+			s[i] = s[i] - 'a' + 'A';
+		}
+
+		capitalize = 0;
+		if (_strchr(separators, s[i]) != NULL)
+		{
+			capitalize = 1;
+		}
+		i++;
 	}
-	else
-	{
-		nextToken = NULL;
-	}
-
-	return (tokenStart);
-}
-/**
- * _strncpy - this fuction copys a string with a specified maximum length
- * @destination: points to the destination string
- * @source: points to the source string
- * @num: maximum number of characters to be copied
- * Return: start pointer
- */
-
-char *_strncpy(char *destination, const char *source, size_t num)
-{
-	char *start = destination;
-
-	while (num > 0 && *source != '\0')
-	{
-		*destination = *source;
-		destination++;
-		source++;
-		num--;
-	}
-
-	while (num > 0)
-	{
-		*destination = '\0';
-		destination++;
-		num--;
-	}
-
-	return (start);
+	return (s);
 }
 
 /**
- * _strcat - concatenates two strings
- * @dest: destination string
- * @src: source string
- * @n: maximum number of characters to concatenate
+ * _strspn - Calculates the length of a prefix substring.
+ * @s: The string to check.
+ * @accept: The string containing the characters to match.
  *
- * Return: pointer to the resulting string
+ * Return: The number of bytes in the initial segment of s
+ *         consisting only of bytes from accept.
  */
-char *_strcat(char *dest, const char *src, size_t n)
+unsigned int _strspn(char *s, char *accept)
 {
-	size_t dest_len = strlen(dest);
+	unsigned int count = 0;
+	int i, j;
+
+	for (i = 0; s[i] != '\0'; i++)
+	{
+		for (j = 0; accept[j] != '\0'; j++)
+		{
+			if (s[i] == accept[j])
+			{
+				count++;
+				break;
+			}
+		}
+		if (accept[j] == '\0')
+		{
+			return (count);
+		}
+	}
+	return (count);
+}
+
+/**
+ * set_string - Sets the value of a pointer to a char.
+ * @s: Pointer to change.
+ * @to: String to set the pointer to.
+ */
+void set_string(char **s, char *to)
+{
+	*s = to;
+}
+
+/**
+ * _strdup - Duplicates a string.
+ * @str: The string to duplicate.
+ *
+ * Return: Pointer to the duplicated string.
+ */
+char *_strdup(const char *str)
+{
 	size_t i;
+	size_t length = 0;
+	char *duplicate;
 
-	for (i = 0; i < n && src[i] != '\0'; i++)
-	{
-		dest[dest_len + i] = src[i];
-	}
-
-	dest[dest_len + i] = '\0';
-
-	return (dest);
+	if (str == NULL)
+		return (NULL);
+	while (str[length] != '\0')
+		length++;
+	duplicate = (char *)malloc((length + 1) * sizeof(char));
+	if (duplicate == NULL)
+		return (NULL);
+	for (i = 0; i <= length; i++)
+		duplicate[i] = str[i];
+	return (duplicate);
 }
+
+/**
+ * _strpbrk - Searches a string for any of a set of bytes.
+ * @str: The string to search.
+ * @delimiters: The characters to search for.
+ *
+ * Return: Pointer to the first occurrence of any character from delimiters
+ *         in the string str, or NULL if no match is found.
+ */
+char *_strpbrk(const char *str, const char *delimiters)
+{
+	while (*str != '\0')
+	{
+		const char *delimiter = delimiters;
+
+		while (*delimiter != '\0')
+		{
+			if (*str == *delimiter)
+				return ((char *)str);
+			delimiter++;
+		}
+		str++;
+	}
+	return (NULL);
+}
+

@@ -1,100 +1,105 @@
 #include "main.h"
 /**
- * _strspn - calculates the length of a prefix substring
- * @s: string to check
- * @accept: string containing the characters to match
- *
- * Return: the number of bytes in the initial segment of s
- * consisting only of bytes from accept
+ * _strtok - tokenizes command
+ * @str: the string
+ * @delimiters: tokens splittted
+ * Return: Token
  */
-unsigned int _strspn(char *s, char *accept)
+
+char *_strtok(char *str, const char *delimiters)
 {
-	unsigned int count = 0;
-	int i, j;
+	static char *nextToken;
+	char *tokenStart;
+	char *tokenEnd;
 
-	for (i = 0; s[i] != '\0'; i++)
+	if (str != NULL)
+		nextToken = str;
+	if (nextToken == NULL || *nextToken == '\0')
+		return (NULL);
+	tokenStart = nextToken;
+	tokenEnd = _strpbrk(nextToken, delimiters);
+	if (tokenEnd != NULL)
 	{
-		for (j = 0; accept[j] != '\0'; j++)
-		{
-			if (s[i] == accept[j])
-			{
-				count++;
-				break;
-			}
-		}
+		*tokenEnd = '\0';
+		nextToken = tokenEnd + 1;
+	}
+	else
+	{
+		nextToken = NULL;
+	}
+	return (tokenStart);
+}
 
-		if (accept[j] == '\0')
-		{
-			return (count);
-		}
+/**
+ * _strncpy - Copies a specified number strings
+ * @destination: Pointer to the destination string.
+ * @source: Pointer to the source string.
+ * @num: Maximum number of characters to be copied.
+ *
+ * Return: Pointer to the destination string.
+ */
+char *_strncpy(char *destination, const char *source, size_t num)
+{
+	char *start = destination;
+
+	while (num > 0 && *source != '\0')
+	{
+		*destination = *source;
+		destination++;
+		source++;
+		num--;
 	}
 
-	return (count);
+	while (num > 0)
+	{
+
+		*destination = '\0';
+		destination++;
+		num--;
+	}
+	return (start);
 }
 
 /**
- * set_string - sets the value of a pointer to a char
- * @s: pointer to change
- * @to: string to set the pointer to
+ * _strcat - Concatenates two strings, limiting the number of characters.
+ * @dest: Pointer to the destination string.
+ * @src: Pointer to the source string.
+ * @n: Maximum number of characters to concatenate.
+ *
+ * Return: Pointer to the resulting string.
  */
-void set_string(char **s, char *to)
+char *_strcat(char *dest, const char *src, size_t n)
 {
-	*s = to;
-}
-/**
- * _strdup - this function duplicates a string
- * @str: string
- * Return: duplicate
- */
-
-char *_strdup(const char *str)
-{
+	size_t dest_len = _strlen(dest);
 	size_t i;
-	size_t length = 0;
-	char *duplicate;
 
-	if (str == NULL)
-		return (NULL);
-
-
-	while (str[length] != '\0')
-		length++;
-
-	duplicate = (char *)malloc((length + 1) * sizeof(char));
-	if (duplicate == NULL)
-		return (NULL);
-
-	for (i = 0; i <= length; i++)
-		duplicate[i] = str[i];
-
-	return (duplicate);
+	for (i = 0; i < n && src[i] != '\0'; i++)
+	{
+		dest[dest_len + i] = src[i];
+	}
+	dest[dest_len + i] = '\0';
+	return (dest);
 }
-
 
 /**
- * _strpbrk - it locates first occurrence in a string of
- * any of the specified delimiters.
- * @str: string to search.
- * @delimiters: delimiters to search for.
+ * s_strcpy - Copies a string from source to destination.
+ * @dest: Pointer to the destination string.
+ * @src: Pointer to the source string.
  *
- * Return: pointer to the first occurrence of a character
- * or NULL if no match is found.
+ * Return: Pointer to the destination string.
  */
-
-char *_strpbrk(const char *str, const char *delimiters)
+char *s_strcpy(char *dest, const char *src)
 {
-	while (*str != '\0')
+	int i = 0;
+
+	if (dest == NULL || src == NULL)
+		return (NULL);
+	while (src[i] != '\0')
 	{
-		const char *delimiter = delimiters;
-
-		while (*delimiter != '\0')
-		{
-			if (*str == *delimiter)
-				return ((char *)str);
-			delimiter++;
-		}
-		str++;
+		dest[i] = src[i];
+		i++;
 	}
-
-	return (NULL);
+	dest[i] = '\0';
+	return  (dest);
 }
+
