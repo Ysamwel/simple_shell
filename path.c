@@ -19,7 +19,7 @@ PathNode *add_path(PathNode *head, const char *path)
 		exit(1);
 	}
 
-	strcpy(newNode->path, path);
+	s_strcpy(newNode->path, path);
 	newNode->next = NULL;
 
 	if (head == NULL)

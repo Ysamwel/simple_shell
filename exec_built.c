@@ -52,7 +52,7 @@ int exit_execute(char **args __attribute__((unused)))
 
 		if (args[1] != NULL)
 		{
-			exit_code = atoi(args[1]);
+			exit_code = _atoi(args[1]);
 		}
 		exit(exit_code);
 	}
