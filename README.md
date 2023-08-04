@@ -2,7 +2,7 @@
 Our interest is to create a basic shell which has the ability to print a prompt and wait for end users to enter command then print what has been input.
 
 For this to be a success we need_
-# BOILERPLATE
+# BOILERPLATE CODE
 # ACTIVATE A PROMPT
 # CREATE READING AND PRINTING
 # ACTIVATION OF OUTPUT
